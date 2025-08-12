@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>iFrame vPos</title>
+    <!-- Usa la ruta HTTPS correcta de la librería de Bancard -->
+    <script src="https://vpos.infonet.com.py:8888/checkout/javascript/dist/bancard-checkout-2.1.0.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>iFrame vPos</h1>
+    <div
+      style="height: 130px; width: 100%; margin: auto"
+      id="iframe-container"
+    ></div>
+
+    <script type="text/javascript">
+      // Función para leer parámetros de la URL
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      window.onload = function () {
+        // Obtener el process_id desde la URL
+        const processId = getQueryParam("process_id");
+
+        if (!processId) {
+          document.getElementById("iframe-container").innerHTML =
+            '<p style="color:red">Error: Falta el parámetro <code>process_id</code> en la URL.</p>' +
+            "<p>Ejemplo: ?process_id=ABC123</p>";
+          return;
+        }
+
+        // Estilos personalizados
+        var styles = {
+          "input-background-color": "#ffffff",
+          "input-text-color": "#333333",
+          "input-border-color": "#ffffff",
+          "input-placeholder-color": "#333333",
+          "button-background-color": "#5CB85C",
+          "button-text-color": "#ffffff",
+          "button-border-color": "#4CAE4C",
+          "form-background-color": "#ffffff",
+          "form-border-color": "#dddddd",
+          "header-background-color": "#dddddd",
+          "header-text-color": "#333333",
+          "hr-border-color": "#dddddd",
+        };
+
+        var options = {
+          styles: styles,
+        };
+
+        // Crear el formulario usando el process_id de la URL
+        Bancard.Cards.createForm("iframe-container", processId, options);
+      };
+    </script>
+  </body>
+</html>
